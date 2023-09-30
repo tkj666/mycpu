@@ -14,6 +14,8 @@
 
 //ECTL
 `define LIE 12:0
+`define LIE_1 9:0
+`define LIE_2 12:11
 
 //ESTAT
 `define IS 12:0

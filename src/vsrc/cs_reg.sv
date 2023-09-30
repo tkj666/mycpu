@@ -381,7 +381,10 @@ module cs_reg
     //ectl
     always @(posedge clk) begin
         if (rst) csr_ectl <= 32'b0;
-        else if (we == 1'b1 && waddr == `ECTL) csr_ectl[`LIE] <= wdata[`LIE];
+        else if (we == 1'b1 && waddr == `ECTL) begin
+            csr_ectl[`LIE_1] <= wdata[`LIE_1];
+            csr_ectl[`LIE_2] <= wdata[`LIE_2];
+        end
     end
 
     //estate
