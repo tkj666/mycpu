@@ -70,6 +70,9 @@ module dcache_fifo
                 q_data[tail] <= cpu_wdata_i;
                 tail <= tail + 1;
             end
+            if (write_hit) begin
+                q_data[write_hit_idx] <= cpu_wdata_i;
+            end
         end
     end
 
@@ -97,9 +100,6 @@ module dcache_fifo
         write_hit_o <= write_hit;
         if (read_hit) begin
             cpu_rdata_o <= q_data[read_hit_idx];
-        end
-        if (write_hit) begin
-            q_data[write_hit_idx] <= cpu_wdata_i;
         end
     end
 
