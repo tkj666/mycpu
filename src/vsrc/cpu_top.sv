@@ -80,9 +80,9 @@ module cpu_top
     output logic [                  31:0] debug0_wb_pc,
     output logic [                   3:0] debug0_wb_rf_wen,
     output logic [                   4:0] debug0_wb_rf_wnum,
-    output logic [                  31:0] debug0_wb_rf_wdata,
+    output logic [                  31:0] debug0_wb_rf_wdata
 `ifdef CPU_2CMT
-    output logic [                  31:0] debug1_wb_pc,
+,    output logic [                  31:0] debug1_wb_pc,
     output logic [                   3:0] debug1_wb_rf_wen,
     output logic [                   4:0] debug1_wb_rf_wnum,
     output logic [                  31:0] debug1_wb_rf_wdata

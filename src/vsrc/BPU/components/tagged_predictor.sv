@@ -204,7 +204,7 @@ module tagged_predictor
 `else
     bram #(
         .DATA_WIDTH($bits(pht_entry)),
-        .DATA_DEPTH_EXP2(PHT_ADDR_WIDTH),
+        .DATA_DEPTH_EXP2(PHT_ADDR_WIDTH)
     ) pht_table (
         .clk  (clk),
         .ena  (1'b1),
