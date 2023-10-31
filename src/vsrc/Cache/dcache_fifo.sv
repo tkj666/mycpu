@@ -38,21 +38,11 @@ module dcache_fifo
 
     logic full, empty;
 
-    logic accepted;
+    logic writing = axi_req_accept;
 
     assign state = {full, empty};
     assign empty = (head == tail) & ~valid[head];
     assign full = (tail == head) & valid[head];
-
-    always_ff @(posedge clk) begin : accept
-        if (rst) begin
-            accepted <= 0;
-        end else if (axi_req_accept) begin
-            accepted <= 1;
-        end else if (axi_bvalid_i) begin
-            accepted <= 0;
-        end
-    end
 
     always_ff @(posedge clk) begin : push_pop
         if (rst) begin
@@ -60,7 +50,7 @@ module dcache_fifo
             tail <= 0;
             valid <= 0;
         end else begin
-            if (axi_bvalid_i & accepted) begin
+            if (writing) begin
                 head <= head + 1;
                 valid[head] <= 0;
             end
@@ -87,7 +77,7 @@ module dcache_fifo
                     read_hit = 1;
                     read_hit_idx = i;
                 end
-                if (cpu_wreq_i & (q_addr[i] == cpu_awaddr_i)) begin
+                if (cpu_wreq_i & (q_addr[i] == cpu_awaddr_i) & ((i == head & ~writing) | i != head)) begin
                     write_hit = 1;
                     write_hit_idx = i;
                 end
@@ -103,7 +93,7 @@ module dcache_fifo
         end
     end
 
-    assign axi_wen_o = ~empty & ~accepted;
+    assign axi_wen_o = ~empty;
     assign axi_wdata_o = q_data[head];
     assign axi_awaddr_o = q_addr[head];
 
